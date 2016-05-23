@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64544CE21CF0E37100B2233A /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 64544CE11CF0E37100B2233A /* MenuScene.m */; };
+		646E24DE1CF3A54C001C46A5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24DD1CF3A54C001C46A5 /* Constants.m */; };
+		646E24E31CF3AA1E001C46A5 /* StoryMainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24E21CF3AA1E001C46A5 /* StoryMainScene.m */; };
+		646E24E61CF3AA3D001C46A5 /* CGScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24E51CF3AA3D001C46A5 /* CGScene.m */; };
 		64E52B9D1CEFF0B600EA0405 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E52B9C1CEFF0B600EA0405 /* main.m */; };
 		64E52BA01CEFF0B600EA0405 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E52B9F1CEFF0B600EA0405 /* AppDelegate.m */; };
 		64E52BA31CEFF0B600EA0405 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E52BA21CEFF0B600EA0405 /* GameScene.m */; };
@@ -18,6 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64544CE01CF0E37100B2233A /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
+		64544CE11CF0E37100B2233A /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
+		646E24DC1CF3A54C001C46A5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		646E24DD1CF3A54C001C46A5 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		646E24E11CF3AA1E001C46A5 /* StoryMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryMainScene.h; sourceTree = "<group>"; };
+		646E24E21CF3AA1E001C46A5 /* StoryMainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryMainScene.m; sourceTree = "<group>"; };
+		646E24E41CF3AA3D001C46A5 /* CGScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGScene.h; sourceTree = "<group>"; };
+		646E24E51CF3AA3D001C46A5 /* CGScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGScene.m; sourceTree = "<group>"; };
 		64E52B981CEFF0B600EA0405 /* Middleton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Middleton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64E52B9C1CEFF0B600EA0405 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		64E52B9E1CEFF0B600EA0405 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -44,6 +56,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64544CDF1CF0E2B500B2233A /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				646E24E01CF3AA10001C46A5 /* story */,
+				64E52BA11CEFF0B600EA0405 /* GameScene.h */,
+				64E52BA21CEFF0B600EA0405 /* GameScene.m */,
+				64544CE01CF0E37100B2233A /* MenuScene.h */,
+				64544CE11CF0E37100B2233A /* MenuScene.m */,
+			);
+			name = scenes;
+			sourceTree = "<group>";
+		};
+		646E24DB1CF3A53B001C46A5 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				646E24DC1CF3A54C001C46A5 /* Constants.h */,
+				646E24DD1CF3A54C001C46A5 /* Constants.m */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		646E24DF1CF3A9B8001C46A5 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				646E24E41CF3AA3D001C46A5 /* CGScene.h */,
+				646E24E51CF3AA3D001C46A5 /* CGScene.m */,
+			);
+			name = api;
+			sourceTree = "<group>";
+		};
+		646E24E01CF3AA10001C46A5 /* story */ = {
+			isa = PBXGroup;
+			children = (
+				646E24E11CF3AA1E001C46A5 /* StoryMainScene.h */,
+				646E24E21CF3AA1E001C46A5 /* StoryMainScene.m */,
+			);
+			name = story;
+			sourceTree = "<group>";
+		};
 		64E52B8F1CEFF0B600EA0405 = {
 			isa = PBXGroup;
 			children = (
@@ -63,10 +114,11 @@
 		64E52B9A1CEFF0B600EA0405 /* Middleton */ = {
 			isa = PBXGroup;
 			children = (
+				646E24DF1CF3A9B8001C46A5 /* api */,
+				646E24DB1CF3A53B001C46A5 /* utils */,
+				64544CDF1CF0E2B500B2233A /* scenes */,
 				64E52B9E1CEFF0B600EA0405 /* AppDelegate.h */,
 				64E52B9F1CEFF0B600EA0405 /* AppDelegate.m */,
-				64E52BA11CEFF0B600EA0405 /* GameScene.h */,
-				64E52BA21CEFF0B600EA0405 /* GameScene.m */,
 				64E52BA41CEFF0B600EA0405 /* GameScene.sks */,
 				64E52BA61CEFF0B600EA0405 /* GameViewController.h */,
 				64E52BA71CEFF0B600EA0405 /* GameViewController.m */,
@@ -159,9 +211,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				64E52BA81CEFF0B600EA0405 /* GameViewController.m in Sources */,
+				64544CE21CF0E37100B2233A /* MenuScene.m in Sources */,
+				646E24E31CF3AA1E001C46A5 /* StoryMainScene.m in Sources */,
 				64E52BA01CEFF0B600EA0405 /* AppDelegate.m in Sources */,
+				646E24E61CF3AA3D001C46A5 /* CGScene.m in Sources */,
 				64E52BA31CEFF0B600EA0405 /* GameScene.m in Sources */,
 				64E52B9D1CEFF0B600EA0405 /* main.m in Sources */,
+				646E24DE1CF3A54C001C46A5 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +366,7 @@
 				64E52BB61CEFF0B600EA0405 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
