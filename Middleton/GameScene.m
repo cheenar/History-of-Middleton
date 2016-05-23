@@ -37,6 +37,7 @@
     middletonLogo.zPosition = 1;
     middletonLogo.name = @"logo";
     [middletonLogo setScale:0.2];
+//[middletonLogo runAction:[SKAction rotateByAngle:3.14 duration:2.0]];
     middletonLogo.position = CGPointMake(WIDTH(2), HEIGHT(2) + 20);
     [self addChild:middletonLogo];
     

@@ -34,7 +34,7 @@ typedef enum _CharacterPosition
 @property SKShapeNode *messageTitle;
 
 -(void) setupMessageBox;
--(void) setupMessageTitle;
+-(void) setupMessageTitle:(NSString *)title;
 
 -(void)setMessageBoxText:(NSArray *)lines;
 -(void)setMessageTitleText:(NSString *)title;

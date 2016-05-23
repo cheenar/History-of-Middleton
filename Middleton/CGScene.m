@@ -76,21 +76,51 @@
     [messageBox addChild:hexagon];
     
     //messagebox lines
-    SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Ultralight"];
-    text.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
-    text.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-    text.fontSize = 36;
-    text.alpha = 1.0;
-    text.zPosition = 2;
-    text.text = @"testtest";
-    text.position = CGPointMake(20, messageBox.frame.size.height - (text.frame.size.height) - 20);
-    text.fontColor = [SKColor whiteColor];
-    [messageBox addChild:text];
+    
+    for(int i = 0; i < 3; i++)
+    {
+        SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+        text.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+        text.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+        text.fontSize = 26;
+        text.alpha = 1.0;
+        text.name = [NSString stringWithFormat:@"text_%i", i];
+        text.zPosition = 2;
+        text.text = @"Hello There! My name is Young~chan";
+        text.position = CGPointMake(20, messageBox.frame.size.height - (text.frame.size.height * (i + 1)) - 0);
+        text.fontColor = [SKColor whiteColor];
+        [messageBox addChild:text];
+    }
 }
 
--(void) setupMessageTitle
+-(void) setupMessageTitle:(NSString *)title
 {
+    float x = .9;
+    float y = .1;
+    int fontSize = 26;
+    messageTitle = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0,self.frame.size.width * x, self.frame.size.height * y) cornerRadius:10.0];
+    messageTitle.position = CGPointMake(messageBox.position.x, messageBox.frame.size.height + (messageTitle.frame.size.height / 24) + 30);
+    messageTitle.fillColor = COLOR(127,30,127,0.67);
+    messageTitle.lineWidth = 0.0;
+    messageTitle.name = @"messageTitle";
+    messageTitle.zPosition = 2;
+    if(![self.children containsObject:messageTitle])
+    {
+        [self addChild:messageTitle];
+        NSLog(@"makd bnox");
+    }
     
+    SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+    text.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    text.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+    text.fontSize = fontSize;
+    text.alpha = 1.0;
+    text.name = [NSString stringWithFormat:@"text_title"];
+    text.zPosition = 2;
+    text.text = title;
+    text.position = CGPointMake(20, messageTitle.frame.size.height - (text.frame.size.height) + 5);
+    text.fontColor = [SKColor whiteColor];
+    [messageTitle addChild:text];
 }
 
 -(id)initWithSize:(CGSize)size
@@ -104,6 +134,7 @@
         [self setupCharacter:nil withScale:1.0];
         //setup the message
         [self setupMessageBox];
+        [self setupMessageTitle:@"Young~chan"];
     }
     return self;
 }
@@ -115,10 +146,10 @@
         switch(pos)
         {
             case LEFT:
-                characterImage.position = CGPointMake(self.frame.size.width / 8, CHARACTER_POS_Y);
+                characterImage.position = CGPointMake((self.frame.size.width / 8 )+ 40, CHARACTER_POS_Y);
                 break;
             case RIGHT:
-                characterImage.position = CGPointMake((self.frame.size.width) - (self.frame.size.width / 8), CHARACTER_POS_Y);
+                characterImage.position = CGPointMake((self.frame.size.width) - (self.frame.size.width / 8) - 40, CHARACTER_POS_Y);
                 break;
             case MIDDLE:
                 characterImage.position = CGPointMake(self.frame.size.width/2, CHARACTER_POS_Y);
@@ -136,7 +167,9 @@
 
 -(void)setMessageBoxText:(NSArray *)lines
 {
-    
+    for(int i = 0; i < lines.count; i++)
+    {
+    }
 }
 
 -(void)setMessageTitleText:(NSString *)title
