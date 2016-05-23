@@ -169,6 +169,16 @@
 {
     for(int i = 0; i < lines.count; i++)
     {
+        SKLabelNode *text = (SKLabelNode *)[messageBox childNodeWithName:[NSString stringWithFormat:@"text_%i", i]];
+        [text runAction:[SKAction sequence:@[
+                                             
+                                             [SKAction fadeOutWithDuration:0.2],
+                                             [SKAction runBlock:^{
+            text.text = [lines objectAtIndex:i];
+        }],
+                                             [SKAction fadeInWithDuration:0.2]
+                                             
+                                             ]]];
     }
 }
 

@@ -26,4 +26,9 @@
 {
 }
 
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+     [self setMessageBoxText:@[@"cramer gg", @"david gy", @"exson ty"]];
+}
+
 @end
