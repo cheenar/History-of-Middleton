@@ -7,6 +7,7 @@
 //
 
 #import "MenuScene.h"
+#import "StoryMainScene.h"
 
 #define COLOR(r,g,b,a) [SKColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #define HEIGHT(x) self.frame.size.height/x
@@ -83,7 +84,8 @@
     CGPoint touch = [[touches anyObject] locationInNode:self];
     if([[self childNodeWithName:@"Story"] containsPoint:touch])
     {
-        
+        StoryMainScene *scene = [[StoryMainScene alloc] initWithSize:self.frame.size];
+        [self.view presentScene:scene transition:[SKTransition doorsOpenVerticalWithDuration:1.0]];
     }
     if([[self childNodeWithName:@"Resources"] containsPoint:touch])
     {
