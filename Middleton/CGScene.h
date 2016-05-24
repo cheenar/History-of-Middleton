@@ -42,6 +42,17 @@ typedef enum _CharacterPosition
 -(void)showMessageBox:(BOOL)shouldShow;
 -(void)showTitleBox:(BOOL)shouldShow;
 
+//choices tab
+@property SKNode *options;
+@property NSArray *optionsChoices;
+
+-(void)setupOptions:(NSArray *)choices;
+-(void)showOptions:(BOOL)shouldShow;
+-(void)setOptionChoicesText:(NSArray *)ops;
+
+-(BOOL)areOptionsVisible;
+
+//helper funcs
 -(void)setCharacterPosition:(CharacterPosition)pos;
 
 -(id)initWithSize:(CGSize)size;

@@ -13,6 +13,8 @@
     
 }
 
+@property int storyPosition;
+
 -(id)initWithSize:(CGSize)size;
 
 @end

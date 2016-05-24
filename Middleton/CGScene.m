@@ -14,7 +14,7 @@
 #define CENTER MIDDLE
 
 @implementation CGScene
-@synthesize characterImage, backgroundImage, messageBox, messageTitle;
+@synthesize characterImage, backgroundImage, messageBox, messageTitle, optionsChoices, options;
 
 -(void)setupBackground:(NSString *)imageName
 {
@@ -86,9 +86,10 @@
         text.alpha = 1.0;
         text.name = [NSString stringWithFormat:@"text_%i", i];
         text.zPosition = 2;
-        text.text = @"Hello There! My name is Young~chan";
+        text.text = @"XYZxyz";
         text.position = CGPointMake(20, messageBox.frame.size.height - (text.frame.size.height * (i + 1)) - 0);
         text.fontColor = [SKColor whiteColor];
+        text.text = @"";
         [messageBox addChild:text];
     }
 }
@@ -100,7 +101,7 @@
     int fontSize = 26;
     messageTitle = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0,self.frame.size.width * x, self.frame.size.height * y) cornerRadius:10.0];
     messageTitle.position = CGPointMake(messageBox.position.x, messageBox.frame.size.height + (messageTitle.frame.size.height / 24) + 30);
-    messageTitle.fillColor = COLOR(127,30,127,0.67);
+    messageTitle.fillColor = COLOR(64,64,64,0.67);
     messageTitle.lineWidth = 0.0;
     messageTitle.name = @"messageTitle";
     messageTitle.zPosition = 2;
@@ -120,7 +121,41 @@
     text.text = title;
     text.position = CGPointMake(20, messageTitle.frame.size.height - (text.frame.size.height) + 5);
     text.fontColor = [SKColor whiteColor];
+    text.text = @"";
     [messageTitle addChild:text];
+}
+
+-(void) setupOptions:(NSArray *)choices
+{
+    self.optionsChoices = choices;
+    options = [SKNode node];
+    [options setPosition:CGPointMake(0, 0)];
+    options.zPosition = 3;
+    options.name = @"options";
+    options.alpha = 0.0;
+    
+    for(int i = 0; i < optionsChoices.count; i++)
+    {
+        SKShapeNode *optionButton = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.34, self.frame.size.height / 7.0) cornerRadius:10];
+        optionButton.position = CGPointMake(WIDTH(2) - (optionButton.frame.size.width / 2) , HEIGHT(1) - ((optionButton.frame.size.height / 2)) - 50 - (optionButton.frame.size.height * (i)));
+        NSLog(@"%fi,%fi", optionButton.position.x, optionButton.position.y);
+        optionButton.zPosition = 1;
+        optionButton.lineWidth = 0.0;
+        optionButton.name = [NSString stringWithFormat:@"option_%i", i];
+        optionButton.fillColor = COLOR(30, 30, 30, 0.8);
+        
+        SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+        text.name = [NSString stringWithFormat:@"option_text"];
+        text.fontSize = 24;
+        text.text = [choices objectAtIndex:i];
+        text.position = CGPointMake(optionButton.frame.size.width/2, (optionButton.frame.size.height/2) - (text.frame.size.height/2));
+        [optionButton addChild:text];
+        
+        [options addChild:optionButton];
+        
+    }
+    
+    [self addChild:options];
 }
 
 -(id)initWithSize:(CGSize)size
@@ -134,7 +169,8 @@
         [self setupCharacter:nil withScale:1.0];
         //setup the message
         [self setupMessageBox];
-        [self setupMessageTitle:@"Young~chan"];
+        [self setupMessageTitle:@"XYZxyz"];
+        [self setupOptions:@[@"test", @"poop"]];
     }
     return self;
 }
@@ -143,21 +179,29 @@
 {
     if(characterImage != nil)
     {
+        CGPoint position = CGPointMake(0, 0);
         switch(pos)
         {
             case LEFT:
-                characterImage.position = CGPointMake((self.frame.size.width / 8 )+ 40, CHARACTER_POS_Y);
+                position = CGPointMake((self.frame.size.width / 8 )+ 40, CHARACTER_POS_Y);
                 break;
             case RIGHT:
-                characterImage.position = CGPointMake((self.frame.size.width) - (self.frame.size.width / 8) - 40, CHARACTER_POS_Y);
+                position = CGPointMake((self.frame.size.width) - (self.frame.size.width / 8) - 40, CHARACTER_POS_Y);
                 break;
             case MIDDLE:
-                characterImage.position = CGPointMake(self.frame.size.width/2, CHARACTER_POS_Y);
+                position = CGPointMake(self.frame.size.width/2, CHARACTER_POS_Y);
                 break;
             default:
                 @throw [NSException exceptionWithName:@"Invalid Position" reason:@"Invalid position fed for character position" userInfo:nil];
                 break;
         }
+        [characterImage runAction:[SKAction sequence:@[
+                                                       
+                                                       [SKAction fadeOutWithDuration:0.2],
+                                                       [SKAction moveTo:position duration:0.0],
+                                                       [SKAction fadeInWithDuration:0.2]
+                                                       
+                                                       ]]];
     }
     else
     {
@@ -167,14 +211,26 @@
 
 -(void)setMessageBoxText:(NSArray *)lines
 {
-    for(int i = 0; i < lines.count; i++)
+    NSMutableArray *data = [NSMutableArray array];
+    for(int i = 0; i < 3; i++)
+    {
+        if(i < lines.count)
+        {
+            [data addObject:[lines objectAtIndex:i]];
+        }
+        else
+        {
+            [data addObject:@""];
+        }
+    }
+    for(int i = 0; i < data.count; i++)
     {
         SKLabelNode *text = (SKLabelNode *)[messageBox childNodeWithName:[NSString stringWithFormat:@"text_%i", i]];
         [text runAction:[SKAction sequence:@[
                                              
                                              [SKAction fadeOutWithDuration:0.2],
                                              [SKAction runBlock:^{
-            text.text = [lines objectAtIndex:i];
+            text.text = [data objectAtIndex:i];
         }],
                                              [SKAction fadeInWithDuration:0.2]
                                              
@@ -184,7 +240,16 @@
 
 -(void)setMessageTitleText:(NSString *)title
 {
-    
+    if(messageTitle != nil)
+    {
+        SKLabelNode *text = (SKLabelNode *) [messageTitle childNodeWithName:@"text_title"];
+        text.text = title;
+    }
+}
+
+-(void)setOptionChoicesText:(NSArray *)ops
+{
+    [self setupOptions:ops];
 }
 
 -(void)showMessageBox:(BOOL)shouldShow
@@ -203,6 +268,20 @@
         [messageTitle runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
     else
         @throw [NSException exceptionWithName:@"Failed to show messagebox" reason:@"the message box was no initialized" userInfo:nil];
+}
+
+-(void)showOptions:(BOOL)shouldShow
+{
+    float opacity = shouldShow ? 1.0 : 0.0;
+    if(options != nil)
+        [options runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
+    else
+        @throw [NSException exceptionWithName:@"Failed to show messagebox" reason:@"the message box was no initialized" userInfo:nil];
+}
+
+-(BOOL)areOptionsVisible
+{
+    return options.alpha > 0;
 }
 
 @end
