@@ -7,6 +7,7 @@
 //
 
 #import "StoryMainScene.h"
+#import "MenuScene.h"
 
 @implementation StoryMainScene
 @synthesize storyPosition;
@@ -52,6 +53,10 @@
 
 -(void)didMoveToView:(SKView *)view
 {
+    if([self actionForKey:@"music"] == nil)
+    {
+        [self runAction:[SKAction repeatActionForever:[SKAction playSoundFileNamed:@"bg.mp3" waitForCompletion:YES]] withKey:@"music"];
+    }
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -61,7 +66,8 @@
     
     if([[self childNodeWithName:@"home"] containsPoint:[[touches anyObject] locationInNode:self]])
     {
-        NSLog(@"touched the home chan");
+        MenuScene *scene = [[MenuScene alloc] initWithSize:self.frame.size];
+        [self.view presentScene:scene transition:[SKTransition flipHorizontalWithDuration:0.5]];
     }
     else
     {

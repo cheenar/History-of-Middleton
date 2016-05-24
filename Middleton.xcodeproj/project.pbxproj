@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38789AA91CF49FF100FABCD9 /* bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38789AA81CF49FF100FABCD9 /* bg.mp3 */; };
 		64544CE21CF0E37100B2233A /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 64544CE11CF0E37100B2233A /* MenuScene.m */; };
 		646E24DE1CF3A54C001C46A5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24DD1CF3A54C001C46A5 /* Constants.m */; };
 		646E24E31CF3AA1E001C46A5 /* StoryMainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24E21CF3AA1E001C46A5 /* StoryMainScene.m */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		38789AA81CF49FF100FABCD9 /* bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bg.mp3; sourceTree = "<group>"; };
 		64544CE01CF0E37100B2233A /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		64544CE11CF0E37100B2233A /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		646E24DC1CF3A54C001C46A5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38789AAA1CF49FFC00FABCD9 /* music */ = {
+			isa = PBXGroup;
+			children = (
+				38789AA81CF49FF100FABCD9 /* bg.mp3 */,
+			);
+			name = music;
+			sourceTree = "<group>";
+		};
 		64544CDF1CF0E2B500B2233A /* scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +133,7 @@
 				64E52BA61CEFF0B600EA0405 /* GameViewController.h */,
 				64E52BA71CEFF0B600EA0405 /* GameViewController.m */,
 				64E52BA91CEFF0B600EA0405 /* Main.storyboard */,
+				38789AAA1CF49FFC00FABCD9 /* music */,
 				64E52BAC1CEFF0B600EA0405 /* Assets.xcassets */,
 				64E52BAE1CEFF0B600EA0405 /* LaunchScreen.storyboard */,
 				64E52BB11CEFF0B600EA0405 /* Info.plist */,
@@ -197,6 +208,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38789AA91CF49FF100FABCD9 /* bg.mp3 in Resources */,
 				64E52BA51CEFF0B600EA0405 /* GameScene.sks in Resources */,
 				64E52BB01CEFF0B600EA0405 /* LaunchScreen.storyboard in Resources */,
 				64E52BAD1CEFF0B600EA0405 /* Assets.xcassets in Resources */,

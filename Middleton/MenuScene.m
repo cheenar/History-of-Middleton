@@ -85,7 +85,7 @@
     if([[self childNodeWithName:@"Story"] containsPoint:touch])
     {
         StoryMainScene *scene = [[StoryMainScene alloc] initWithSize:self.frame.size];
-        [self.view presentScene:scene transition:[SKTransition doorsOpenVerticalWithDuration:1.0]];
+        [self.view presentScene:scene transition:[SKTransition flipHorizontalWithDuration:0.5]];
     }
     if([[self childNodeWithName:@"Resources"] containsPoint:touch])
     {

@@ -18,6 +18,11 @@
 
 -(void)setupBackground:(NSString *)imageName
 {
+    if(backgroundImage != nil)
+    {
+        [backgroundImage removeFromParent];
+        backgroundImage = nil;
+    }
     backgroundImage = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:imageName]];
     backgroundImage.size = self.frame.size;
     backgroundImage.zPosition = 0;
@@ -31,6 +36,11 @@
 
 -(void)setupCharacter: (NSString *)characterImageName withScale:(float)scalef
 {
+    if(characterImage != nil)
+    {
+        [characterImage removeFromParent];
+        characterImage = nil;
+    }
     characterImage = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:characterImageName]];
     [characterImage setScale:scalef];
     characterImage.zPosition = 1;
@@ -128,7 +138,20 @@
 -(void) setupOptions:(NSArray *)choices
 {
     self.optionsChoices = choices;
-    options = [SKNode node];
+    if(options == nil)
+    {
+        if(![[self children] containsObject:options])
+        {
+            options = [SKNode node];
+        }
+    }
+    else
+    {
+        for(SKNode *n in options.children)
+        {
+            [n removeFromParent];
+        }
+    }
     [options setPosition:CGPointMake(0, 0)];
     options.zPosition = 3;
     options.name = @"options";
@@ -155,7 +178,10 @@
         
     }
     
-    [self addChild:options];
+    if(![[self children] containsObject:options])
+    {
+         [self addChild:options];
+    }
 }
 
 -(id)initWithSize:(CGSize)size
