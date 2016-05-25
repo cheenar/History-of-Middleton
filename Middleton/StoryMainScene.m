@@ -20,13 +20,12 @@
 
 -(void)setupDefaultScene
 {
-    [self setupBackground:@"background_middleton_ledge"];
-    [self setupCharacter:@"mryoung_trans" withScale:.34];
+    [self changeBackground:@"background_middleton_ledge"];
+    [self changeCharacterImage:@"mryoung_trans" withScale:.34];
     self.characterImage.alpha = 0.0;
     [self setCharacterPosition:LEFT];
     [self setMessageBoxText:@[@"Hello there!", @"Welcome to Middleton High School"]];
     [self setMessageTitleText:@"Mr. Young"];
-    
     [self options].alpha = 0.0;
 }
 

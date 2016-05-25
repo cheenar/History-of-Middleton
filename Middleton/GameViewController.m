@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "GameScene.h"
+#import "StoryMainScene.h"
 
 @implementation GameViewController
 
@@ -24,6 +25,7 @@
     
     // Create and configure the scene.
     GameScene *scene = [GameScene nodeWithFileNamed:@"GameScene"];
+    //StoryMainScene *scene = [[StoryMainScene alloc] initWithSize:skView.frame.size];
     scene.scaleMode = SKSceneScaleModeResizeFill;
     
     // Present the scene.

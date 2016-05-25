@@ -196,7 +196,12 @@
         //setup the message
         [self setupMessageBox];
         [self setupMessageTitle:@"XYZxyz"];
-        [self setupOptions:@[@"test", @"poop"]];
+        [self setupOptions:@[@"XYZxyz", @"xyzXYZ"]];
+        backgroundImage.alpha = 0.0;
+        characterImage.alpha = 0.0;
+        options.alpha = 0.0;
+        messageBox.alpha = 0.0;
+        messageTitle.alpha = 0.0;
     }
     return self;
 }
@@ -303,6 +308,25 @@
         [options runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
     else
         @throw [NSException exceptionWithName:@"Failed to show messagebox" reason:@"the message box was no initialized" userInfo:nil];
+}
+
+-(void)changeCharacterImage:(NSString *)image withScale:(float)scalef
+{
+    if(characterImage != nil)
+    {
+        characterImage.texture = [SKTexture textureWithImageNamed:image];
+        characterImage.size = [SKTexture textureWithImageNamed:image].size;
+        [characterImage setScale:scalef];
+    }
+}
+
+-(void)changeBackground:(NSString *)image
+{
+    if(backgroundImage != nil)
+    {
+        backgroundImage.texture = [SKTexture textureWithImageNamed:image];
+        backgroundImage.size = self.frame.size;
+    }
 }
 
 -(BOOL)areOptionsVisible

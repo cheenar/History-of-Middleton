@@ -54,6 +54,11 @@ typedef enum _CharacterPosition
 
 //helper funcs
 -(void)setCharacterPosition:(CharacterPosition)pos;
+-(void)changeCharacterImage:(NSString *)image withScale:(float)scalef;
+-(void)changeBackground:(NSString *)image;
+
+-(void)showBackground:(BOOL)shouldShow;
+-(void)showCharacter:(BOOL)
 
 -(id)initWithSize:(CGSize)size;
 

@@ -1,3 +1,3 @@
 git add .
-git commit -m "added music and started defining the crap"
+git commit -m "refacting a bit"
 git push origin master
