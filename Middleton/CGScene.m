@@ -45,7 +45,7 @@
     [characterImage setScale:scalef];
     characterImage.zPosition = 1;
     characterImage.name = @"characterImage";
-    [self setCharacterPosition:CENTER];
+    [self setCharacterPosition:CENTER withFade:NO];
     if(![self.children containsObject:characterImage])
     {
         [self addChild:characterImage];
@@ -72,11 +72,13 @@
     SKSpriteNode *hexagon = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"hexagon"]];
     hexagon.zPosition = 1;
     [hexagon setScale:.1];
+    hexagon.colorBlendFactor = 1.0;
+    hexagon.color = [SKColor whiteColor];
     hexagon.position = CGPointMake(messageBox.frame.size.width - (hexagon.frame.size.width/2) - 10, 20);
     hexagon.name = @"hexagon";
     [hexagon runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                           
-                                                                          [SKAction scaleTo:.15 duration:0.5],
+                                                                          [SKAction scaleTo:.125 duration:0.5],
                                                                           [SKAction waitForDuration:1.0],
                                                                           [SKAction scaleTo:.1 duration:.5],
                                                                           [SKAction waitForDuration:1.0]
@@ -197,6 +199,8 @@
         [self setupMessageBox];
         [self setupMessageTitle:@"XYZxyz"];
         [self setupOptions:@[@"XYZxyz", @"xyzXYZ"]];
+        
+        //hide everything kun
         backgroundImage.alpha = 0.0;
         characterImage.alpha = 0.0;
         options.alpha = 0.0;
@@ -206,7 +210,7 @@
     return self;
 }
 
--(void)setCharacterPosition:(CharacterPosition)pos
+-(void)setCharacterPosition:(CharacterPosition)pos withFade:(BOOL)shouldFade
 {
     if(characterImage != nil)
     {
@@ -226,13 +230,24 @@
                 @throw [NSException exceptionWithName:@"Invalid Position" reason:@"Invalid position fed for character position" userInfo:nil];
                 break;
         }
-        [characterImage runAction:[SKAction sequence:@[
-                                                       
-                                                       [SKAction fadeOutWithDuration:0.2],
-                                                       [SKAction moveTo:position duration:0.0],
-                                                       [SKAction fadeInWithDuration:0.2]
-                                                       
-                                                       ]]];
+        if(shouldFade)
+        {
+            [characterImage runAction:[SKAction sequence:@[
+                                                           
+                                                           [SKAction fadeOutWithDuration:0.2],
+                                                           [SKAction moveTo:position duration:0.0],
+                                                           [SKAction fadeInWithDuration:0.2]
+                                                           
+                                                           ]]];
+        }
+        else
+        {
+            [characterImage runAction:[SKAction sequence:@[
+                                                           
+                                                           [SKAction moveTo:position duration:0.0]
+                                                           
+                                                           ]]];
+        }
     }
     else
     {
@@ -305,10 +320,25 @@
 {
     float opacity = shouldShow ? 1.0 : 0.0;
     if(options != nil)
-        [options runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
+        [options runAction:[SKAction fadeAlphaTo:opacity duration:0.5]];
     else
         @throw [NSException exceptionWithName:@"Failed to show messagebox" reason:@"the message box was no initialized" userInfo:nil];
 }
+
+-(void)showBackground:(BOOL)shouldShow
+{
+    float opacity = shouldShow ? 1.0 : 0.0;
+    if(backgroundImage != nil)
+        [backgroundImage runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
+}
+
+-(void)showCharacter:(BOOL)shouldShow
+{
+    float opacity = shouldShow ? 1.0 : 0.0;
+    if(characterImage != nil)
+        [characterImage runAction:[SKAction fadeAlphaTo:opacity duration:1.0]];
+}
+
 
 -(void)changeCharacterImage:(NSString *)image withScale:(float)scalef
 {

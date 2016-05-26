@@ -22,11 +22,14 @@
 {
     [self changeBackground:@"background_middleton_ledge"];
     [self changeCharacterImage:@"mryoung_trans" withScale:.34];
-    self.characterImage.alpha = 0.0;
-    [self setCharacterPosition:LEFT];
+    [self setCharacterPosition:LEFT withFade:NO];
     [self setMessageBoxText:@[@"Hello there!", @"Welcome to Middleton High School"]];
     [self setMessageTitleText:@"Mr. Young"];
-    [self options].alpha = 0.0;
+    
+    [self showBackground:YES];
+    [self showMessageBox:YES];
+    [self showTitleBox:YES];
+    [self showCharacter:YES];
 }
 
 -(id)initWithSize:(CGSize)size
@@ -54,7 +57,7 @@
 {
     if([self actionForKey:@"music"] == nil)
     {
-        [self runAction:[SKAction repeatActionForever:[SKAction playSoundFileNamed:@"bg.mp3" waitForCompletion:YES]] withKey:@"music"];
+        //[self runAction:[SKAction repeatActionForever:[SKAction playSoundFileNamed:@"bg.mp3" waitForCompletion:YES]] withKey:@"music"];
     }
 }
 
@@ -82,7 +85,6 @@
         {
             [self setMessageBoxText:@[@"What tour option would you prefer?"]];
             
-            //MOD
             [self setOptionChoicesText:@[@"Guided Tour", @"Free Roam"]];
             [self showOptions:YES];
             
@@ -108,10 +110,34 @@
         {
             [self showTitleBox:NO];
             [self showOptions:NO];
-            [self setCharacterPosition:MIDDLE];
+            //[self setCharacterPosition:MIDDLE withFade:NO];
+            [self showCharacter:NO];
+            if([(NSString *)tempData isEqualToString:@"Free Roam"])
+            {
+                [self setMessageBoxText:@[
+                                          @"You have selected free roam."
+                                          ]];
+            }
+            shouldAdvanceStory = YES;
+        }
+        
+        if(storyPosition == (y+=1)) //4
+        {
             [self setMessageBoxText:@[
-                                      [NSString stringWithFormat:@"You've touched me %@", (NSString *)tempData]
+                                      @"To return to the main menu, press the home button at",
+                                      @"the top of the screen"
                                       ]];
+            shouldAdvanceStory = YES;
+        }
+        
+        if(storyPosition == (y+=1))
+        {
+            [self showCharacter:NO];
+            [self showTitleBox:NO];
+            [self showMessageBox:NO];
+            [self showBackground:NO];
+            [self showOptions:NO];
+            shouldAdvanceStory = YES;
         }
         
         if(shouldAdvanceStory) storyPosition++;
