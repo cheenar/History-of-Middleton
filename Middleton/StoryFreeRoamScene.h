@@ -18,6 +18,7 @@
     SKSpriteNode *rightButton;
     
     SKShapeNode *cardView;
+    BOOL isCardViewShowing;
 }
 
 @end

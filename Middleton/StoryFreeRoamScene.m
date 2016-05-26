@@ -177,6 +177,15 @@
         [rightButton setPosition:CGPointMake(self.frame.size.width - 30, self.frame.size.height / 2)];
         [self addChild:rightButton];
         
+        cardView = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.9, self.frame.size.height * 0.85) cornerRadius:15.0];
+        cardView.position = CGPointMake((self.frame.size.width/2) - (cardView.frame.size.width/2), -self.frame.size.height);
+        //(self.frame.size.height/2) - (cardView.frame.size.height/2)
+        cardView.fillColor = COLOR(255, 255, 255, 0.8);
+        cardView.lineWidth = 0.0;
+        cardView.zPosition = 100;
+        [self addChild:cardView];
+        isCardViewShowing = NO;
+        
         [self addChild:showingScreen];
     }
     return self;
@@ -185,6 +194,20 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint loc = [[touches anyObject] locationInNode:showingScreen];
+    
+    if(isCardViewShowing)
+    {
+        if(![cardView containsPoint:[[touches anyObject] locationInNode:self]])
+        {
+            [cardView runAction:[SKAction moveToY:(-self.frame.size.height) duration:1.0]];
+            isCardViewShowing = NO;
+            SKAction *action = [SKAction fadeInWithDuration:0.3];
+            [leftButton runAction:action];
+            [rightButton runAction:action];
+            [showingScreen runAction:action];
+        }
+        return;
+    }
     
     if([leftButton containsPoint:[[touches anyObject] locationInNode:self]])
     {
@@ -264,6 +287,12 @@
             if([text.text isEqualToString:@"Auditorium"])
             {
                 NSLog(@"auditorium selected");
+                [cardView runAction:[SKAction moveToY:(self.frame.size.height/2) - (cardView.frame.size.height/2) duration:1.0]];
+                isCardViewShowing = YES;
+                SKAction *action = [SKAction fadeOutWithDuration:0.3];
+                [leftButton runAction:action];
+                [rightButton runAction:action];
+                [showingScreen runAction:action];
             }
         }
     }
