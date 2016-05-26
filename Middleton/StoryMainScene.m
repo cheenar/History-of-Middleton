@@ -9,6 +9,7 @@
 #import "StoryMainScene.h"
 #import "MenuScene.h"
 #import "Constants.h"
+#import "StoryFreeRoamScene.h"
 
 @implementation StoryMainScene
 @synthesize storyPosition;
@@ -127,7 +128,7 @@
         if(storyPosition == (y+=1)) //4
         {
             [self setMessageBoxText:@[
-                                      @"To return to the main menu, press the home button at",
+                                      @"To return to the main  menu, press the home button at",
                                       @"the top of the screen"
                                       ]];
             shouldAdvanceStory = YES;
@@ -141,6 +142,9 @@
             [self showBackground:NO];
             [self showOptions:NO];
             shouldAdvanceStory = YES;
+            [self runAction:[SKAction sequence:@[[SKAction waitForDuration:0.6], [SKAction runBlock:^{
+                [self.view presentScene:[[StoryFreeRoamScene alloc] initWithSize:self.frame.size]];
+            }]]]];
         }
         
         if(shouldAdvanceStory) storyPosition++;

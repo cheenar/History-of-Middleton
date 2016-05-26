@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		386583AE1CF71B4A0093797E /* StoryFreeRoamScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 386583AD1CF71B4A0093797E /* StoryFreeRoamScene.m */; };
 		38789AA91CF49FF100FABCD9 /* bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 38789AA81CF49FF100FABCD9 /* bg.mp3 */; };
 		64544CE21CF0E37100B2233A /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 64544CE11CF0E37100B2233A /* MenuScene.m */; };
 		646E24DE1CF3A54C001C46A5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 646E24DD1CF3A54C001C46A5 /* Constants.m */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		386583AC1CF71B490093797E /* StoryFreeRoamScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryFreeRoamScene.h; sourceTree = "<group>"; };
+		386583AD1CF71B4A0093797E /* StoryFreeRoamScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryFreeRoamScene.m; sourceTree = "<group>"; };
 		38789AA81CF49FF100FABCD9 /* bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bg.mp3; sourceTree = "<group>"; };
 		64544CE01CF0E37100B2233A /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		64544CE11CF0E37100B2233A /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 			children = (
 				646E24E11CF3AA1E001C46A5 /* StoryMainScene.h */,
 				646E24E21CF3AA1E001C46A5 /* StoryMainScene.m */,
+				386583AC1CF71B490093797E /* StoryFreeRoamScene.h */,
+				386583AD1CF71B4A0093797E /* StoryFreeRoamScene.m */,
 			);
 			name = story;
 			sourceTree = "<group>";
@@ -181,7 +186,7 @@
 				TargetAttributes = {
 					64E52B971CEFF0B600EA0405 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = UXU9969AF4;
+						DevelopmentTeam = NKF5VKGQUP;
 					};
 				};
 			};
@@ -227,6 +232,7 @@
 				64544CE21CF0E37100B2233A /* MenuScene.m in Sources */,
 				646E24E31CF3AA1E001C46A5 /* StoryMainScene.m in Sources */,
 				64E52BA01CEFF0B600EA0405 /* AppDelegate.m in Sources */,
+				386583AE1CF71B4A0093797E /* StoryFreeRoamScene.m in Sources */,
 				646E24E61CF3AA3D001C46A5 /* CGScene.m in Sources */,
 				64E52BA31CEFF0B600EA0405 /* GameScene.m in Sources */,
 				64E52B9D1CEFF0B600EA0405 /* main.m in Sources */,
