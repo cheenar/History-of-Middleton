@@ -34,4 +34,10 @@ Constants *_constants;
     return self;
 }
 
+
+-(void)debug
+{
+    NSLog(@"constants");
+}
+
 @end

@@ -6,7 +6,9 @@
 //  Copyright © 2016 CBAJV. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <SpriteKit/SpriteKit.h>
+
+#define COLOR(r,g,b,a) [SKColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 typedef enum _Guides
 {
@@ -25,5 +27,7 @@ typedef enum _Guides
 @property NSString *tourGuideImage;
 
 +(Constants *) constants;
+
+-(void)debug;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "StoryMainScene.h"
 #import "MenuScene.h"
+#import "Constants.h"
 
 @implementation StoryMainScene
 @synthesize storyPosition;
@@ -30,6 +31,8 @@
     [self showMessageBox:YES];
     [self showTitleBox:YES];
     [self showCharacter:YES];
+    
+    [[Constants constants] debug];
 }
 
 -(id)initWithSize:(CGSize)size
