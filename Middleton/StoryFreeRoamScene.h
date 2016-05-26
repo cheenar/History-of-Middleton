@@ -13,6 +13,9 @@
     NSArray *screens;
     int currentScreen;
     SKNode *showingScreen;
+    
+    SKSpriteNode *leftButton;
+    SKSpriteNode *rightButton;
 }
 
 @end
