@@ -16,6 +16,8 @@
     
     SKSpriteNode *leftButton;
     SKSpriteNode *rightButton;
+    
+    SKShapeNode *cardView;
 }
 
 @end

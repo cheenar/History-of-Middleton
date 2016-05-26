@@ -63,6 +63,29 @@
     return texture;
 }
 
+-(SKTexture *)blurBackground:(SKTexture *)tex withBlur:(BOOL)sb
+{
+    SKTexture *texture = tex;
+    if(!sb) return texture;
+    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [gaussianBlurFilter setDefaults];
+    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[texture CGImage]] forKey:kCIInputImageKey];
+    [gaussianBlurFilter setValue:@5 forKey:kCIInputRadiusKey];
+    
+    CIImage *outputImage = [gaussianBlurFilter outputImage];
+    CIContext *context   = [CIContext contextWithOptions:nil];
+    CGRect rect          = [outputImage extent];
+    rect.origin.x        += (rect.size.width  - texture.size.width ) / 2;
+    rect.origin.y        += (rect.size.height - texture.size.height) / 2;
+    rect.size            = texture.size;
+    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
+    UIImage *image       = [UIImage imageWithCGImage:cgimg];
+    CGImageRelease(cgimg);
+    
+    texture = [SKTexture textureWithImage:image];
+    return texture;
+}
+
 -(SKShapeNode *)buildBox:(CGPoint)loc withImg:(NSString *)img withText:(NSString *)line
 {
     SKShapeNode *box = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.4, self.frame.size.height * 0.395) cornerRadius:15.0];
@@ -72,7 +95,7 @@
     box.fillTexture = [self blurredTexture:img withBlur:NO];
     
     SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
-    text.fontSize = 18;
+    text.fontSize = 24;
     text.fontColor = [SKColor whiteColor];
     text.name = @"text";
     text.text = line;
@@ -128,21 +151,22 @@
     self = [super initWithSize:size];
     if(self)
     {
-        SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:[self blurredTextureWithTexture:[SKTexture textureWithImageNamed:@"big_tiger"] withBlur:YES]];
+        SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:[self blurBackground:[SKTexture textureWithImageNamed:@"big_tiger"] withBlur:YES]];
         background.position = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         background.zPosition = 0;
         [self addChild:background];
         
         currentScreen = 0;
         
-        SKNode *firstScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"1", @"2", @"3", @"4"]];
+        SKNode *firstScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"Auditorium", @"Cafeteria", @"Field", @"Mural"]];
+        SKNode *secondScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"Cockus", @"Cafeteria", @"Field", @"Mural"]];
         
-        screens = @[firstScreen];
+        screens = @[firstScreen, secondScreen];
         
         showingScreen = [screens objectAtIndex:currentScreen];
         
-        leftButton = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"right"]];
-        [leftButton setScale:0.2];
+        leftButton = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"left"]];
+        [leftButton setScale:-0.2];
         [leftButton setZPosition:1];
         [leftButton setPosition:CGPointMake(30, self.frame.size.height / 2)];
         [self addChild:leftButton];
@@ -161,6 +185,49 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint loc = [[touches anyObject] locationInNode:showingScreen];
+    
+    if([leftButton containsPoint:[[touches anyObject] locationInNode:self]])
+    {
+        if(true)
+        {
+            if(currentScreen != 0)
+                currentScreen--;
+            else
+                currentScreen = (int)screens.count-1;
+            
+            [showingScreen runAction:[SKAction moveToX:-self.frame.size.width duration:0.5] completion:^{
+                [showingScreen removeFromParent];
+                showingScreen = [screens objectAtIndex:currentScreen];
+                showingScreen.alpha = 0.0;
+                [self addChild:showingScreen];
+                [showingScreen runAction:[SKAction moveToX:self.frame.size.width duration:0.0] completion:^{
+                    showingScreen.alpha = 1.0;
+                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5]];
+                }];
+            }];
+        }
+    }
+    if([rightButton containsPoint:[[touches anyObject] locationInNode:self]])
+    {
+        if(true)
+        {
+            if(currentScreen != screens.count-1)
+                currentScreen++;
+            else
+                currentScreen = 0;
+            
+            [showingScreen runAction:[SKAction moveToX:self.frame.size.width duration:0.5] completion:^{
+                [showingScreen removeFromParent];
+                showingScreen = [screens objectAtIndex:currentScreen];
+                showingScreen.alpha = 0.0;
+                [self addChild:showingScreen];
+                [showingScreen runAction:[SKAction moveToX:-self.frame.size.width duration:0.0] completion:^{
+                    showingScreen.alpha = 1.0;
+                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5]];
+                }];
+            }];
+        }
+    }
     
     for(SKShapeNode *obj in showingScreen.children)
     {
@@ -185,6 +252,19 @@
             obj.fillTexture = [self blurredTextureWithTexture:[obj.userData objectForKey:@"previousTexture"] withBlur:NO];
             [obj childNodeWithName:@"text"].alpha = 0.0;
             [obj.userData removeObjectForKey:@"previousTexture"];
+        }
+    }
+    
+    for(SKShapeNode *button in showingScreen.children)
+    {
+        if([button containsPoint:[[touches anyObject] locationInNode:showingScreen]])
+        {
+            SKLabelNode *text = (SKLabelNode *)[button childNodeWithName:@"text"];
+            
+            if([text.text isEqualToString:@"Auditorium"])
+            {
+                NSLog(@"auditorium selected");
+            }
         }
     }
 }
