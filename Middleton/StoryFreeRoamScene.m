@@ -119,21 +119,33 @@
     SKShapeNode *box_3;
     SKShapeNode *box_4;
     
-    box_1 = [self buildBox:CGPointMake(spacing + (self.frame.size.width * 0.2), (self.frame.size.height - spacing - (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:0] withText:[lines objectAtIndex:0]];
-    box_1.name = @"box_1";
-    [node addChild:box_1];
+    if(lines.count > 0)
+    {
+        box_1 = [self buildBox:CGPointMake(spacing + (self.frame.size.width * 0.2), (self.frame.size.height - spacing - (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:0] withText:[lines objectAtIndex:0]];
+        box_1.name = @"box_1";
+        [node addChild:box_1];
+    }
     
-    box_2 = [self buildBox:CGPointMake(spacing + (self.frame.size.width * 0.2), (spacing + (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:1] withText:[lines objectAtIndex:1]];
-    box_2.name = @"box_2";
-    [node addChild:box_2 ];
+    if(lines.count > 1)
+    {
+        box_2 = [self buildBox:CGPointMake(spacing + (self.frame.size.width * 0.2), (spacing + (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:1] withText:[lines objectAtIndex:1]];
+        box_2.name = @"box_2";
+        [node addChild:box_2 ];
+    }
     
-    box_3 = [self buildBox:CGPointMake(self.frame.size.width - spacing - (self.frame.size.width * 0.2), (self.frame.size.height - spacing - (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:2] withText:[lines objectAtIndex:2]];
-    box_3.name = @"box_3";
-    [node addChild:box_3];
+    if(lines.count > 2)
+    {
+        box_3 = [self buildBox:CGPointMake(self.frame.size.width - spacing - (self.frame.size.width * 0.2), (self.frame.size.height - spacing - (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:2] withText:[lines objectAtIndex:2]];
+        box_3.name = @"box_3";
+        [node addChild:box_3];
+    }
     
-    box_4 = [self buildBox:CGPointMake(self.frame.size.width - spacing - (self.frame.size.width * 0.2), (spacing + (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:3] withText:[lines objectAtIndex:3]];
-    box_4.name = @"box_4";
-    [node addChild:box_4];
+    if(lines.count > 3)
+    {
+        box_4 = [self buildBox:CGPointMake(self.frame.size.width - spacing - (self.frame.size.width * 0.2), (spacing + (self.frame.size.height * (height/2)))) withImg:[imgs objectAtIndex:3] withText:[lines objectAtIndex:3]];
+        box_4.name = @"box_4";
+        [node addChild:box_4];
+    }
     
     for(SKNode *n in node.children)
     {
@@ -151,6 +163,8 @@
     self = [super initWithSize:size];
     if(self)
     {
+        isAnimatingCardMotion = NO;
+        
         SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:[self blurBackground:[SKTexture textureWithImageNamed:@"big_tiger"] withBlur:YES]];
         background.position = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         background.zPosition = 0;
@@ -159,7 +173,7 @@
         currentScreen = 0;
         
         SKNode *firstScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"Auditorium", @"Cafeteria", @"Field", @"Mural"]];
-        SKNode *secondScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"Cockus", @"Cafeteria", @"Field", @"Mural"]];
+        SKNode *secondScreen = [self buildScreen:@[@"test", @"test"] withText:@[@"Cockus", @"Cafeteria"]];
         
         screens = @[firstScreen, secondScreen];
         
@@ -183,6 +197,7 @@
         cardView.fillColor = COLOR(255, 255, 255, 0.8);
         cardView.lineWidth = 0.0;
         cardView.zPosition = 100;
+        [cardView runAction:[SKAction rotateToAngle:-3.14/2 duration:0.0]];
         [self addChild:cardView];
         isCardViewShowing = NO;
         
@@ -199,7 +214,12 @@
     {
         if(![cardView containsPoint:[[touches anyObject] locationInNode:self]])
         {
+            for(SKNode *child in cardView.children)
+            {
+                [child removeFromParent];
+            }
             [cardView runAction:[SKAction moveToY:(-self.frame.size.height) duration:1.0]];
+            [cardView runAction:[SKAction rotateToAngle:-3.14/2 duration:1.0]];
             isCardViewShowing = NO;
             SKAction *action = [SKAction fadeInWithDuration:0.3];
             [leftButton runAction:action];
@@ -218,6 +238,8 @@
             else
                 currentScreen = (int)screens.count-1;
             
+            isAnimatingCardMotion = YES;
+            
             [showingScreen runAction:[SKAction moveToX:-self.frame.size.width duration:0.5] completion:^{
                 [showingScreen removeFromParent];
                 showingScreen = [screens objectAtIndex:currentScreen];
@@ -225,7 +247,9 @@
                 [self addChild:showingScreen];
                 [showingScreen runAction:[SKAction moveToX:self.frame.size.width duration:0.0] completion:^{
                     showingScreen.alpha = 1.0;
-                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5]];
+                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5] completion:^{
+                        isAnimatingCardMotion = NO;
+                    }];
                 }];
             }];
         }
@@ -239,6 +263,8 @@
             else
                 currentScreen = 0;
             
+            isAnimatingCardMotion = YES;
+            
             [showingScreen runAction:[SKAction moveToX:self.frame.size.width duration:0.5] completion:^{
                 [showingScreen removeFromParent];
                 showingScreen = [screens objectAtIndex:currentScreen];
@@ -246,7 +272,9 @@
                 [self addChild:showingScreen];
                 [showingScreen runAction:[SKAction moveToX:-self.frame.size.width duration:0.0] completion:^{
                     showingScreen.alpha = 1.0;
-                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5]];
+                    [showingScreen runAction:[SKAction moveToX:0 duration:0.5] completion:^{
+                        isAnimatingCardMotion = NO;
+                    }];
                 }];
             }];
         }
@@ -265,8 +293,64 @@
     
 }
 
+-(void)cardSelected
+{
+    [cardView runAction:[SKAction rotateToAngle:0 duration:1.0]];
+    [cardView runAction:[SKAction moveToY:(self.frame.size.height/2) - ((self.frame.size.height * 0.85)/2) duration:1.0]];
+    isCardViewShowing = YES;
+    SKAction *action = [SKAction fadeOutWithDuration:0.3];
+    [leftButton runAction:action];
+    [rightButton runAction:action];
+    [showingScreen runAction:action];
+}
+
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    if(isAnimatingCardMotion)
+    {
+        return;
+    }
+    
+    float width = self.frame.size.width *0.9;
+    float height = self.frame.size.height * 0.85;
+    
+    for(SKShapeNode *button in showingScreen.children)
+    {
+        if([button containsPoint:[[touches anyObject] locationInNode:showingScreen]] && [[button.userData allKeys] containsObject:@"previousTexture"])
+        {
+            SKLabelNode *text = (SKLabelNode *)[button childNodeWithName:@"text"];
+            
+            [self cardSelected]; //move this outside of this to run for all cards
+            
+            SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+            test.fontSize = 36;
+            test.fontColor = [SKColor redColor];
+            test.zPosition = 2;
+            test.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+            test.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+            test.text = text.text;
+            test.position = CGPointMake(width/2, height/2);
+            [cardView addChild:test];
+            
+            
+            /*if([text.text isEqualToString:@"Auditorium"])
+             {
+             [self cardSelected]; //move this outside of this to run for all cards
+             
+             SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+             test.fontSize = 36;
+             test.fontColor = [SKColor redColor];
+             test.zPosition = 2;
+             test.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+             test.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+             test.text = text.text;
+             test.position = CGPointMake(width/2, height/2);
+             [cardView addChild:test];
+             
+             NSLog(@"auditorium selected");
+             }*/
+        }
+    }
     for(SKShapeNode *obj in showingScreen.children)
     {
         NSLog(@"%@", [obj.userData allKeys]);
@@ -275,25 +359,6 @@
             obj.fillTexture = [self blurredTextureWithTexture:[obj.userData objectForKey:@"previousTexture"] withBlur:NO];
             [obj childNodeWithName:@"text"].alpha = 0.0;
             [obj.userData removeObjectForKey:@"previousTexture"];
-        }
-    }
-    
-    for(SKShapeNode *button in showingScreen.children)
-    {
-        if([button containsPoint:[[touches anyObject] locationInNode:showingScreen]])
-        {
-            SKLabelNode *text = (SKLabelNode *)[button childNodeWithName:@"text"];
-            
-            if([text.text isEqualToString:@"Auditorium"])
-            {
-                NSLog(@"auditorium selected");
-                [cardView runAction:[SKAction moveToY:(self.frame.size.height/2) - (cardView.frame.size.height/2) duration:1.0]];
-                isCardViewShowing = YES;
-                SKAction *action = [SKAction fadeOutWithDuration:0.3];
-                [leftButton runAction:action];
-                [rightButton runAction:action];
-                [showingScreen runAction:action];
-            }
         }
     }
 }

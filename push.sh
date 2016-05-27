@@ -1,3 +1,3 @@
 git add .
-git commit -m "starting on the card view so we can populate all the free roam crap"
+git commit -m "finished card view, waiting for data~chan"
 git push origin master

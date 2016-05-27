@@ -19,6 +19,7 @@
     
     SKShapeNode *cardView;
     BOOL isCardViewShowing;
+    BOOL isAnimatingCardMotion;
 }
 
 @end
