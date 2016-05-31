@@ -43,7 +43,7 @@
     
     SKLabelNode *authors = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
     authors.zPosition = 1;
-    authors.text = @"Cheenar | Brian | Alec | Jeff | Varun";
+    authors.text = @"Cheenar | Brian | Alec | Jeff";
     authors.fontSize = 24;
     authors.fontColor = [SKColor whiteColor];
     authors.position = CGPointMake(WIDTH(2), HEIGHT(2) - (middletonLogo.frame.size.height / 2) - (authors.frame.size.height  / 2) - 15);
