@@ -71,7 +71,7 @@
     [self addChild:text];
     
     [self makeButtonWithTitle:@"Story" withPosition:CGPointMake(WIDTH(2), HEIGHT(2) - 20)];
-    [self makeButtonWithTitle:@"Resources" withPosition:CGPointMake(WIDTH(2), HEIGHT(2) - 120)];
+    //[self makeButtonWithTitle:@"Resources" withPosition:CGPointMake(WIDTH(2), HEIGHT(2) - 120)];
 }
 
 -(void)didMoveToView:(SKView *)view

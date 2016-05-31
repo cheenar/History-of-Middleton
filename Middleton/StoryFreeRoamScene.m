@@ -7,6 +7,7 @@
 //
 
 #import "StoryFreeRoamScene.h"
+#import "MenuScene.h"
 #import "Constants.h"
 
 #define COUNT(arr) [arr count]
@@ -203,13 +204,26 @@
         [leftButton setScale:-0.2];
         [leftButton setZPosition:1];
         [leftButton setPosition:CGPointMake(30, self.frame.size.height / 2)];
-        [self addChild:leftButton];
         
         rightButton = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"left"]];
         [rightButton setScale:0.2];
         [rightButton setZPosition:1];
         [rightButton setPosition:CGPointMake(self.frame.size.width - 30, self.frame.size.height / 2)];
-        [self addChild:rightButton];
+        
+        //[self addChild:leftButton];
+        //[self addChild:rightButton];
+        
+        
+        SKSpriteNode *home = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"home"]];
+        home.name = @"home";
+        home.zPosition = 100;
+        home.colorBlendFactor = 1.0;
+        home.color = [SKColor whiteColor];
+        [home setScale:0.05];
+        home.alpha = 0.5;
+        home.position = CGPointMake((home.frame.size.width/2) + 20, self.frame.size.height - (home.frame.size.height / 2) - 20);
+        [self addChild:home];
+        
         
         cardView = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.9, self.frame.size.height * 0.85) cornerRadius:15.0];
         cardView.position = CGPointMake((self.frame.size.width/2) - (cardView.frame.size.width/2), -self.frame.size.height);
@@ -245,8 +259,15 @@
             [leftButton runAction:action];
             [rightButton runAction:action];
             [showingScreen runAction:action];
+            [[self childNodeWithName:@"home"] runAction:[SKAction fadeInWithDuration:0.4]];
         }
         return;
+    }
+    
+    if([[self childNodeWithName:@"home"] containsPoint:[[touches anyObject] locationInNode:self]])
+    {
+        MenuScene *scene = [[MenuScene alloc] initWithSize:self.frame.size];
+        [self.view presentScene:scene transition:[SKTransition flipHorizontalWithDuration:0.5]];
     }
     
     if([leftButton containsPoint:[[touches anyObject] locationInNode:self]])
@@ -326,7 +347,7 @@
 
 -(void)renderTexts:(NSArray *)texts withInitPosition:(CGPoint)startPosition
 {
-    int fontSize = 16;
+    int fontSize = 14;
     int spacing = 2;
     
     startPosition = CGPointMake(startPosition.x, startPosition.y);
@@ -364,6 +385,7 @@
             SKLabelNode *text = (SKLabelNode *)[button childNodeWithName:@"text"];
             
             [self cardSelected]; //move this outside of this to run for all cards
+            [[self childNodeWithName:@"home"] runAction:[SKAction fadeOutWithDuration:0.4]];
             
             SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
             test.fontSize = 36;
@@ -461,7 +483,10 @@
                                     @"• Named after George S. Middleton because he was a respected figure in the area",
                                     @"• The school became a magnet school in 2002 in order to desegregate the area",
                                     @"• Middleton's rivalery with Blake stems from the fact that the schools",
-                                    @"were the only too black schools in the area"]
+                                    @"were the only two black schools in the area",
+                                    @"• Middleton's original location was in a predominately black area",
+                                    @"• Middleton's current location was chosen because it had the most area"
+                                    ]
                  withInitPosition:CGPointMake(20, test.position.y - 40)];
             }
         }

@@ -1,3 +1,3 @@
 git add .
-git commit -m "working on the data~kun"
+git commit -m "half way through the debugging stages in school"
 git push origin master

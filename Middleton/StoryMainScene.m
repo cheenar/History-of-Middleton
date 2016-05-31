@@ -89,7 +89,7 @@
         {
             [self setMessageBoxText:@[@"What tour option would you prefer?"]];
             
-            [self setOptionChoicesText:@[@"Guided Tour", @"Free Roam"]];
+            [self setOptionChoicesText:@[@"Free Roam"]];
             [self showOptions:YES];
             
             shouldAdvanceStory = YES;
@@ -128,8 +128,8 @@
         if(storyPosition == (y+=1)) //4
         {
             [self setMessageBoxText:@[
-                                      @"To return to the main  menu, press the home button at",
-                                      @"the top of the screen"
+                                      @"To return to the main  menu, press the home button",
+                                      @"at the top of the screen"
                                       ]];
             shouldAdvanceStory = YES;
         }
