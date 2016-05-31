@@ -96,13 +96,26 @@
     box.position = CGPointMake(loc.x - (box.frame.size.width / 2), loc.y - (box.frame.size.height / 2));
     box.fillColor = COLOR(255,255,255, 1.0);
     box.lineWidth = 0.0;
-    box.fillTexture = [self blurredTexture:img withBlur:NO];
+    
+    if([img isEqualToString:@"trophy"])
+    {
+        SKSpriteNode *trophy = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:img]];
+        trophy.position = CGPointMake(box.frame.size.width/2, box.frame.size.height / 2);
+        [trophy setScale:0.5];
+        [box addChild:trophy];
+        box.fillTexture = [SKTexture textureWithImageNamed:@"hexagon-1"];
+    }
+    else
+    {
+        box.fillTexture = [self blurredTexture:img withBlur:NO];
+    }
     
     SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
     text.fontSize = 24;
     text.fontColor = [SKColor whiteColor];
     text.name = @"text";
     text.text = line;
+    text.zPosition = 10;
     text.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     text.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
     text.position = CGPointMake(box.frame.size.width / 2, box.frame.size.height / 2);
@@ -185,9 +198,9 @@
   
   
   @[@"Cafeteria_low", @"Baseball_low",
-    @"tiger_logo.png"]
+    @"tiger_logo.png", @"trophy"]
                                        withText:
-  @[@"Key Buildings", @"Sports Fields", @"Middleton"]];
+  @[@"Key Buildings", @"Sports Fields", @"Middleton", @"Accomplishments"]];
         
         
         SKNode *secondScreen = [self buildScreen:
@@ -435,7 +448,10 @@
                                     @"Best who was an alum and player",
                                     @"He was also a principal at Blake",
                                     @"• Track named for Olympian",
-                                    @"Teresa M."]
+                                    @"Teresa M.",
+                                    @"• Middleton's rivalery with",
+                                    @"Blake stems from the fact that the",
+                                    @"schools were the only two black schools in the area"]
                  withInitPosition:CGPointMake(20, test.position.y - 40)];
             }
             
@@ -477,15 +493,23 @@
                 [self renderTexts:@[@"• Opened in 1934",
                                     @"• Reopened in 2002 (After being closed in 1971)",
                                     @"• The school burned down in 1944 and 1968",
-                                    @"• Closed in 1971 because of Brown v. BoE",
-                                    @"• Alma Mater and school colors were chosen before the school opened",
-                                    @"• Opened in 1934",
+                                    @"• Closed in 1971 because of Brown v. Board of Education",
                                     @"• Named after George S. Middleton because he was a respected figure in the area",
+                                    @"• Alma Mater and school colors were chosen before the school opened",
                                     @"• The school became a magnet school in 2002 in order to desegregate the area",
-                                    @"• Middleton's rivalery with Blake stems from the fact that the schools",
-                                    @"were the only two black schools in the area",
                                     @"• Middleton's original location was in a predominately black area",
                                     @"• Middleton's current location was chosen because it had the most area"
+                                    ]
+                 withInitPosition:CGPointMake(20, test.position.y - 40)];
+            }
+            
+            if([text.text isEqualToString:@"Accomplishments"])
+            {
+                [self renderTexts:@[
+                                    @"• Undefeat season for many sports",
+                                    @"• STEM Certified school",
+                                    @"• Achieved B ranking (highest since School reopen in 2002)",
+                                    @"• First school in the state with solar panels"
                                     ]
                  withInitPosition:CGPointMake(20, test.position.y - 40)];
             }

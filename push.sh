@@ -1,3 +1,3 @@
 git add .
-git commit -m "half way through the debugging stages in school"
+git commit -m "look at the todo, finish that, add the final, and the app will be over"
 git push origin master
