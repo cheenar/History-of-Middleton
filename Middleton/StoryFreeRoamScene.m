@@ -9,6 +9,8 @@
 #import "StoryFreeRoamScene.h"
 #import "Constants.h"
 
+#define COUNT(arr) [arr count]
+
 @interface StoryFreeRoamScene()
 {
     
@@ -88,6 +90,7 @@
 
 -(SKShapeNode *)buildBox:(CGPoint)loc withImg:(NSString *)img withText:(NSString *)line
 {
+    NSLog(@"%fi,%fi", self.frame.size.width * 0.4, self.frame.size.height * 0.395);
     SKShapeNode *box = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.4, self.frame.size.height * 0.395) cornerRadius:15.0];
     box.position = CGPointMake(loc.x - (box.frame.size.width / 2), loc.y - (box.frame.size.height / 2));
     box.fillColor = COLOR(255,255,255, 1.0);
@@ -111,6 +114,11 @@
 -(SKNode *)buildScreen:(NSArray *)imgs withText:(NSArray *)lines
 {
     SKNode *node = [SKNode node];
+    
+    node.userData = [NSMutableDictionary dictionary];
+    [node.userData setObject:imgs forKey:@"imgs"];
+    [node.userData setObject:lines forKey:@"lines"];
+    
     int spacing = 60;
     float height = 0.3;
     
@@ -172,10 +180,22 @@
         
         currentScreen = 0;
         
-        SKNode *firstScreen = [self buildScreen:@[@"test", @"test", @"test", @"test"] withText:@[@"Auditorium", @"Cafeteria", @"Field", @"Mural"]];
-        SKNode *secondScreen = [self buildScreen:@[@"test", @"test"] withText:@[@"Cockus", @"Cafeteria"]];
+        SKNode *firstScreen = [self buildScreen:
+  
+  
+  @[@"Cafeteria_low", @"Baseball_low",
+    @"tiger_logo.png"]
+                                       withText:
+  @[@"Key Buildings", @"Sports Fields", @"Middleton"]];
         
-        screens = @[firstScreen, secondScreen];
+        
+        SKNode *secondScreen = [self buildScreen:
+  
+  
+  @[@"Gym_low"] withText:
+  @[@"Gym"]];
+        
+        screens = @[firstScreen];
         
         showingScreen = [screens objectAtIndex:currentScreen];
         
@@ -194,7 +214,7 @@
         cardView = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, self.frame.size.width * 0.9, self.frame.size.height * 0.85) cornerRadius:15.0];
         cardView.position = CGPointMake((self.frame.size.width/2) - (cardView.frame.size.width/2), -self.frame.size.height);
         //(self.frame.size.height/2) - (cardView.frame.size.height/2)
-        cardView.fillColor = COLOR(255, 255, 255, 0.8);
+        cardView.fillColor = COLOR(0, 0, 0, 0.8);
         cardView.lineWidth = 0.0;
         cardView.zPosition = 100;
         [cardView runAction:[SKAction rotateToAngle:-3.14/2 duration:0.0]];
@@ -304,6 +324,29 @@
     [showingScreen runAction:action];
 }
 
+-(void)renderTexts:(NSArray *)texts withInitPosition:(CGPoint)startPosition
+{
+    int fontSize = 16;
+    int spacing = 2;
+    
+    startPosition = CGPointMake(startPosition.x, startPosition.y);
+    
+    for(int i= 0; i < texts.count; i++)
+    {
+        SKLabelNode *node = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Regular"];
+        node.fontSize = fontSize;
+        //node.fontColor = COLOR(137, 108, 132, 1.0);
+        node.fontColor = COLOR(128, 128, 128, 1.0);
+        node.zPosition = 2;
+        node.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+        node.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+        node.text = [texts objectAtIndex:i];
+        node.name = node.text;
+        node.position = CGPointMake(startPosition.x, startPosition.y-((fontSize + spacing) * i));
+        [cardView addChild:node];
+    }
+}
+
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if(isAnimatingCardMotion)
@@ -324,36 +367,108 @@
             
             SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
             test.fontSize = 36;
-            test.fontColor = [SKColor redColor];
+            test.fontColor = [SKColor whiteColor];
             test.zPosition = 2;
-            test.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+            test.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
             test.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
             test.text = text.text;
-            test.position = CGPointMake(width/2, height/2);
+            test.position = CGPointMake(20,height - (test.frame.size.height/2) - 20);
             [cardView addChild:test];
             
+            //•
             
-            /*if([text.text isEqualToString:@"Auditorium"])
-             {
-             [self cardSelected]; //move this outside of this to run for all cards
-             
-             SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
-             test.fontSize = 36;
-             test.fontColor = [SKColor redColor];
-             test.zPosition = 2;
-             test.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-             test.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-             test.text = text.text;
-             test.position = CGPointMake(width/2, height/2);
-             [cardView addChild:test];
-             
-             NSLog(@"auditorium selected");
-             }*/
+            NSArray *imgs = [showingScreen.userData objectForKey:@"imgs"];
+            NSArray *lines = [showingScreen.userData objectForKey:@"lines"];
+            NSUInteger index = [lines indexOfObject:test.text];
+            
+            //cardView.fillTexture = [SKTexture textureWithImageNamed:[[[imgs objectAtIndex:index] componentsSeparatedByString:@"_low"] objectAtIndex:0]];
+            
+            if([text.text isEqualToString:@"Sports Fields"])
+            {
+                SKShapeNode *pictureViewer = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, 350, 200) cornerRadius:20];
+                pictureViewer.name = @"pictureViewer";
+                pictureViewer.zPosition = 1;
+                pictureViewer.fillColor = [SKColor whiteColor];
+                pictureViewer.fillTexture = [SKTexture textureWithImageNamed:[imgs objectAtIndex:index]];
+                pictureViewer.position = CGPointMake(width - (pictureViewer.frame.size.width) - 20, height  - (pictureViewer.frame.size.height) - 20);
+                [cardView addChild:pictureViewer];
+                
+                [pictureViewer runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                                            
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:[imgs objectAtIndex:index]]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"FieldBrian_low"]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"DavidField_low"]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Tennis_low"]];}],
+                                                                                            [SKAction waitForDuration:2]
+                                                                                            
+                                                                                            ]]]];
+                
+                [self renderTexts:@[@"• Football stadium named after Abe",
+                                    @"Brown who was the head coach",
+                                    @"During many undefeated eras",
+                                    @"• Baseball field named after David",
+                                    @"Best who was an alum and player",
+                                    @"He was also a principal at Blake",
+                                    @"• Track named for Olympian",
+                                    @"Teresa M."]
+                 withInitPosition:CGPointMake(20, test.position.y - 40)];
+            }
+            
+            if([text.text isEqualToString:@"Key Buildings"])
+            {
+                SKShapeNode *pictureViewer = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, 350, 200) cornerRadius:20];
+                pictureViewer.name = @"pictureViewer";
+                pictureViewer.zPosition = 1;
+                pictureViewer.fillColor = [SKColor whiteColor];
+                pictureViewer.fillTexture = [SKTexture textureWithImageNamed:[imgs objectAtIndex:index]];
+                pictureViewer.position = CGPointMake(width - (pictureViewer.frame.size.width) - 20, height  - (pictureViewer.frame.size.height) - 20);
+                [cardView addChild:pictureViewer];
+                
+                [pictureViewer runAction:[SKAction repeatActionForever:[SKAction sequence:@[
+                                                                                            
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:[imgs objectAtIndex:index]]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Agriculture_low"]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Auditorium_low"]];}],
+                                                                                            [SKAction waitForDuration:2],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Gym_low"]];}],
+                                                                                            [SKAction waitForDuration:2]
+                                                                                            
+                                                                                            ]]]];
+                
+                [self renderTexts:@[@"• Cafeteria named after Fred",
+                                    @"Herns who was a graduate in",
+                                    @"1961 and first Alum President",
+                                    @"• Middleton boasts many",
+                                    @"facilities including an",
+                                    @"agricultural center",
+                                    @"and auditorium"]
+                 withInitPosition:CGPointMake(20, test.position.y - 40)];
+            }
+            
+            if([text.text isEqualToString:@"Middleton"])
+            {
+                [self renderTexts:@[@"• Opened in 1934",
+                                    @"• Reopened in 2002 (After being closed in 1971)",
+                                    @"• The school burned down in 1944 and 1968",
+                                    @"• Closed in 1971 because of Brown v. BoE",
+                                    @"• Alma Mater and school colors were chosen before the school opened",
+                                    @"• Opened in 1934",
+                                    @"• Named after George S. Middleton because he was a respected figure in the area",
+                                    @"• The school became a magnet school in 2002 in order to desegregate the area",
+                                    @"• Middleton's rivalery with Blake stems from the fact that the schools",
+                                    @"were the only too black schools in the area"]
+                 withInitPosition:CGPointMake(20, test.position.y - 40)];
+            }
         }
+        
     }
     for(SKShapeNode *obj in showingScreen.children)
     {
-        NSLog(@"%@", [obj.userData allKeys]);
         if([[obj.userData allKeys] containsObject:@"previousTexture"])
         {
             obj.fillTexture = [self blurredTextureWithTexture:[obj.userData objectForKey:@"previousTexture"] withBlur:NO];
@@ -362,5 +477,6 @@
         }
     }
 }
+
 
 @end

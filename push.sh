@@ -1,3 +1,3 @@
 git add .
-git commit -m "finished card view, waiting for data~chan"
+git commit -m "working on the data~kun"
 git push origin master
