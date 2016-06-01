@@ -97,7 +97,8 @@
     box.fillColor = COLOR(255,255,255, 1.0);
     box.lineWidth = 0.0;
     
-    if([img isEqualToString:@"trophy"])
+    box.fillTexture = [self blurredTexture:img withBlur:NO];
+    /*if([img isEqualToString:@"trophy"])
     {
         SKSpriteNode *trophy = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:img]];
         trophy.position = CGPointMake(box.frame.size.width/2, box.frame.size.height / 2);
@@ -108,7 +109,7 @@
     else
     {
         box.fillTexture = [self blurredTexture:img withBlur:NO];
-    }
+    }*/
     
     SKLabelNode *text = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
     text.fontSize = 24;
@@ -197,7 +198,7 @@
         SKNode *firstScreen = [self buildScreen:
   
   
-  @[@"Cafeteria_low", @"Baseball_low",
+  @[@"buildings", @"sports",
     @"tiger_logo.png", @"trophy"]
                                        withText:
   @[@"Key Buildings", @"Sports Fields", @"Middleton", @"Accomplishments"]];
@@ -430,7 +431,7 @@
                 
                 [pictureViewer runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                                             
-                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:[imgs objectAtIndex:index]]];}],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Baseball_low"]];}],
                                                                                             [SKAction waitForDuration:2],
                                                                                             [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"FieldBrian_low"]];}],
                                                                                             [SKAction waitForDuration:2],
@@ -467,7 +468,7 @@
                 
                 [pictureViewer runAction:[SKAction repeatActionForever:[SKAction sequence:@[
                                                                                             
-                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:[imgs objectAtIndex:index]]];}],
+                                                                                            [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Cafeteria_low"]];}],
                                                                                             [SKAction waitForDuration:2],
                                                                                             [SKAction runBlock:^{[pictureViewer setFillTexture:[SKTexture textureWithImageNamed:@"Agriculture_low"]];}],
                                                                                             [SKAction waitForDuration:2],

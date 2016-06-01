@@ -1,3 +1,3 @@
 git add .
-git commit -m "look at the todo, finish that, add the final, and the app will be over"
+git commit -m "updated the look of different things, pray on this guys"
 git push origin master
