@@ -1,3 +1,3 @@
 git add .
-git commit -m "updated the look of different things, pray on this guys"
+git commit -m "final?"
 git push origin master

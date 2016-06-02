@@ -180,6 +180,7 @@
     return node;
     
 }
+SKLabelNode *closeButton;
 
 -(id)initWithSize:(CGSize)size
 {
@@ -274,6 +275,11 @@
             [rightButton runAction:action];
             [showingScreen runAction:action];
             [[self childNodeWithName:@"home"] runAction:[SKAction fadeInWithDuration:0.4]];
+            
+            if(closeButton != nil)
+            {
+                [closeButton setAlpha:0.0];
+            }
         }
         return;
     }
@@ -284,7 +290,7 @@
         [self.view presentScene:scene transition:[SKTransition flipHorizontalWithDuration:0.5]];
     }
     
-    if([leftButton containsPoint:[[touches anyObject] locationInNode:self]])
+    /*if([leftButton containsPoint:[[touches anyObject] locationInNode:self]])
     {
         if(true)
         {
@@ -333,7 +339,7 @@
                 }];
             }];
         }
-    }
+    }*/
     
     for(SKShapeNode *obj in showingScreen.children)
     {
@@ -400,6 +406,20 @@
             
             [self cardSelected]; //move this outside of this to run for all cards
             [[self childNodeWithName:@"home"] runAction:[SKAction fadeOutWithDuration:0.4]];
+            
+            if(closeButton == nil)
+            {
+                closeButton = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
+                closeButton.name = @"close";
+                closeButton.text = @"X";
+                closeButton.fontColor = [SKColor blackColor];
+                closeButton.fontSize = 24;
+                closeButton.alpha = 1.0;
+                closeButton.zPosition = 10;
+                closeButton.position = CGPointMake(self.frame.size.width - (closeButton.frame.size.width/2) - 20, self.frame.size.height - (closeButton.frame.size.height/2)  - 20);
+                [self addChild:closeButton];
+            }
+            closeButton.alpha = 1.0;
             
             SKLabelNode *test = [SKLabelNode labelNodeWithFontNamed:@"PingFangHK-Thin"];
             test.fontSize = 36;
