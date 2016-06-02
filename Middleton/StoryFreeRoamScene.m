@@ -511,6 +511,15 @@ SKLabelNode *closeButton;
             
             if([text.text isEqualToString:@"Middleton"])
             {
+                
+                SKShapeNode *pictureViewer = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, 200, 100) cornerRadius:20];
+                pictureViewer.name = @"pictureViewer";
+                pictureViewer.zPosition = 1;
+                pictureViewer.fillColor = [SKColor whiteColor];
+                pictureViewer.fillTexture = [SKTexture textureWithImageNamed:@"big_tiger"];
+                pictureViewer.position = CGPointMake((width/2) - (pictureViewer.frame.size.width/2), 20);
+                [cardView addChild:pictureViewer];
+                
                 [self renderTexts:@[@"• Opened in 1934",
                                     @"• Reopened in 2002 (After being closed in 1971)",
                                     @"• The school burned down in 1944 and 1968",
@@ -526,8 +535,18 @@ SKLabelNode *closeButton;
             
             if([text.text isEqualToString:@"Accomplishments"])
             {
+                SKShapeNode *pictureViewer = [SKShapeNode shapeNodeWithRect:CGRectMake(0, 0, 300, 150) cornerRadius:20];
+                pictureViewer.name = @"pictureViewer";
+                pictureViewer.zPosition = 1;
+                pictureViewer.fillColor = [SKColor whiteColor];
+                pictureViewer.fillTexture = [SKTexture textureWithImageNamed:@"solarpanels"];
+                pictureViewer.position = CGPointMake((width/2) - (pictureViewer.frame.size.width/2), 20);
+                [cardView addChild:pictureViewer];
+                
+                
                 [self renderTexts:@[
-                                    @"• Undefeat season for many sports",
+                                    @"• Undefeated season in many sports",
+                                    @"• Reopened as a magnet (STEM) school in 2002",
                                     @"• STEM Certified school",
                                     @"• Achieved B ranking (highest since School reopen in 2002)",
                                     @"• First school in the state with solar panels"
